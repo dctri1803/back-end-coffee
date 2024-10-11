@@ -7,18 +7,18 @@ export class PasswordResetToken {
     id: number;
 
     @Column()
-    userId: number;
+    user_id: number;
 
     @CreateDateColumn()
-    createdAt: Date;
+    created_at: Date;
 
     @Column()
     token: string;
 
     @Column()
-    expiredAt: Date;
+    expired_at: Date;
 
     @ManyToOne(() => User, (user) => user.passwordResetToken, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'userId' })
+    @JoinColumn({ name: 'user_id' })
     user: User;
 }

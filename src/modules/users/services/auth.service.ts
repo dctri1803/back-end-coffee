@@ -5,8 +5,8 @@ import { Repository } from "typeorm";
 import { CreateUserDto } from "../dto/create-user.dto";
 import { plainToInstance } from "class-transformer";
 import * as bcrypt from 'bcrypt';
-import { MailService } from "./mail.service";
 import * as moment from 'moment';
+import { MailService } from "./mail.service";
 import { PasswordResetToken } from "src/database/entities/password_reset_token.entity";
 
 @Injectable()
@@ -29,6 +29,7 @@ export class AuthServices{
         if (isExit) {
             return new BadRequestException('User already exists');
         }
+        
         else {
             const salt = await bcrypt.genSalt();
             const passwordhashed = await bcrypt.hash(createUser.password, salt)
@@ -41,7 +42,8 @@ export class AuthServices{
         }
     }
 
-    async login(email: string, password_hash: string) {
+    async login(email: string, password: string) {
+        console.log('login')
         const user = await this.userRepository.findOne({
             where: {email},
             select: ['id', 'password']
@@ -51,7 +53,7 @@ export class AuthServices{
             throw new BadRequestException('Invalid email or password')
         } else {
             const hashedPassword = user.password;
-            const isMatch = await bcrypt.compare(password_hash, hashedPassword)
+            const isMatch = await bcrypt.compare(password, hashedPassword)
 
             if (isMatch) {
                 return user
@@ -73,8 +75,8 @@ export class AuthServices{
 
             await this.passwordResetTokenRepository.save({
                 token: otp,
-                expiredAt: tokenExpiration,
-                userId: user.id
+                expired_at: tokenExpiration,
+                user_id: user.id
             });
             await this.mailService.sendOtp(email, otp);
 
@@ -90,10 +92,10 @@ export class AuthServices{
         }
     
         const resetToken = await this.passwordResetTokenRepository.findOne({
-            where: { userId: user.id, token },
+            where: { user_id: user.id, token },
         });
     
-        if (!resetToken || resetToken.expiredAt < new Date()) {
+        if (!resetToken || resetToken.expired_at < new Date()) {
             throw new BadRequestException('Invalid or expired token');
         }
     

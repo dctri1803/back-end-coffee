@@ -7,11 +7,12 @@ import { UserServices } from "./services/users.service";
 import { AuthController } from "./controllers/auth.controller";
 import { MailService } from "./services/mail.service";
 import { PasswordResetToken } from "src/database/entities/password_reset_token.entity";
+import { Address } from "src/database/entities/address.entity";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([User, PasswordResetToken])],
+    imports: [TypeOrmModule.forFeature([User, PasswordResetToken, Address])],
     providers: [AuthServices, UserServices, MailService],
     controllers: [UsersController, AuthController],
-    exports: [UserServices ],
+    exports: [UserServices],
 })
 export class UserModules {}

@@ -1,5 +1,10 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { PasswordResetToken } from "./password_reset_token.entity";
+import { Franchise } from "./franchises.entity";
+import { ProductReview } from "./product_reviews.entity";
+import { Address } from "./address.entity";
+// import { Cart } from "./cart.entity";
+// import { PaymentMethod } from "./payment-method";
 
 @Entity('users')
 export class User {
@@ -7,10 +12,10 @@ export class User {
     id: number;
 
     @CreateDateColumn()
-    createdAt: Date;
+    created_at: Date;
 
     @CreateDateColumn()
-    updatedAt: Date;
+    updated_at: Date;
 
     @Column()
     email: string;
@@ -25,12 +30,30 @@ export class User {
     name: string;
 
     @Column()
-    favoriteTheme: string;
+    favorite_theme: string;
 
     @Column()
-    avatarUrl: string;
+    avatar_url: string;
+
+    @Column()
+    phone_number: string;
 
     @OneToMany(() => PasswordResetToken, (passwordResetToken) => passwordResetToken.user)
     passwordResetToken: PasswordResetToken[];
+
+    @OneToMany(() => Franchise, (franchise) => franchise.owner)
+    franchise: Franchise[];
+
+    @OneToMany(() => ProductReview, (review) => review.user)
+    review: ProductReview[];
+
+    @OneToMany(() => Address, (address) => address.user)
+    addresses: Address[];
+
+    // @OneToMany(() => Cart, (cart) => cart.user)
+    // carts: Cart[];
+
+    // @OneToMany(() => PaymentMethod, (paymentMethod) => paymentMethod.user)
+    // paymentMethods: PaymentMethod[];
 
 }

@@ -2,7 +2,7 @@ export class CreateUserDto {
     email?: string;
     password?: string;
     name?: string;
-    favoriteTheme?: string;
-    avatarUrl?: string;
+    favorite_theme?: string;
+    avatar_url?: string;
   }
   

@@ -16,7 +16,7 @@ export class CreatePasswordResetToken1726830971124 implements MigrationInterface
                             generationStrategy: 'increment'
                         },
                         {
-                            name: 'createdAt',
+                            name: 'created_at',
                             type: 'timestamp',
                             default: 'now()'
                         },
@@ -25,11 +25,11 @@ export class CreatePasswordResetToken1726830971124 implements MigrationInterface
                             type: 'varchar'
                         },
                         {
-                            name: 'expiredAt',
+                            name: 'expired_at',
                             type: 'datetime'
                         },
                         {
-                            name: 'userId',
+                            name: 'user_id',
                             type: 'integer',
                         },
                 ]
@@ -38,7 +38,7 @@ export class CreatePasswordResetToken1726830971124 implements MigrationInterface
         await queryRunner.createForeignKey(
             'password_reset_tokens',
             new TableForeignKey({
-              columnNames: ['userId'],
+              columnNames: ['user_id'],
               referencedColumnNames: ['id'],
               referencedTableName: 'users',
               onDelete: 'CASCADE',
@@ -47,6 +47,10 @@ export class CreatePasswordResetToken1726830971124 implements MigrationInterface
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
+        const table = await queryRunner.getTable('password_reset_tokens');
+
+        const foreignKeyUser = table.foreignKeys.find(fk => fk.columnNames.indexOf('product_id') !== -1);
+        await queryRunner.dropForeignKey('password_reset_tokens', foreignKeyUser);
         await queryRunner.dropTable('password_reset_tokens')
     }
 

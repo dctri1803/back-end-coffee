@@ -11,8 +11,8 @@ export class MailService {
             port: 465,
             secure: true,
             auth: {
-                user: process.env.MAIL_ACCOUNT, // Replace with your email
-                pass: process.env.MAIL_PASSWORD,   // Replace with your email password or App password
+                user: process.env.MAIL_ACCOUNT,
+                pass: process.env.MAIL_PASSWORD,
             },
         });
     }

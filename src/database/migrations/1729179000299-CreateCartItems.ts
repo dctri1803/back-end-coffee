@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
 
-export class CreateCartItems1728572172269 implements MigrationInterface {
+export class CreateCartItems1729179000299 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
@@ -17,6 +17,7 @@ export class CreateCartItems1728572172269 implements MigrationInterface {
                     {
                         name: 'cart_id',
                         type: 'int',
+                        isNullable: false,
                     },
                     {
                         name: 'product_id',
@@ -26,6 +27,12 @@ export class CreateCartItems1728572172269 implements MigrationInterface {
                         name: 'quantity',
                         type: 'int',
                     },
+                    {
+                        name: 'size',
+                        type: 'enum',
+                        enum: ['M', 'L', 'XL'],
+                        default: "'M'",
+                      },
                     {
                         name: 'created_at',
                         type: 'timestamp',
@@ -37,34 +44,30 @@ export class CreateCartItems1728572172269 implements MigrationInterface {
                         default: 'CURRENT_TIMESTAMP',
                         onUpdate: 'CURRENT_TIMESTAMP',
                     },
-                ],
-            }),
-            true,
+                ]
+            })
         );
-
         await queryRunner.createForeignKey(
             'cart_items',
             new TableForeignKey({
-                columnNames: ['cart_id'],
-                referencedColumnNames: ['id'],
-                referencedTableName: 'carts',
-                onDelete: 'CASCADE',
+              columnNames: ['cart_id'],
+              referencedColumnNames: ['id'],
+              referencedTableName: 'carts',
+              onDelete: 'CASCADE',
             }),
         );
-
         await queryRunner.createForeignKey(
             'cart_items',
             new TableForeignKey({
-                columnNames: ['product_id'],
-                referencedColumnNames: ['id'],
-                referencedTableName: 'products',
-                onDelete: 'CASCADE',
+              columnNames: ['product_id'],
+              referencedColumnNames: ['id'],
+              referencedTableName: 'products',
+              onDelete: 'CASCADE',
             }),
-        );
+        );     
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable('carts');
     }
 
 }

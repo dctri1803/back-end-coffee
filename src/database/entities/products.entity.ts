@@ -3,6 +3,8 @@ import { Franchise } from "./franchises.entity";
 import { ProductReview } from "./product_reviews.entity";
 import { ProductImage } from "./product_images.entity";
 import { ProductCategory } from "./product_category.entity";
+import { ProductSize } from "./product_sizes.entity";
+import { CartItem } from "./cart-item.entity";
 // import { CartItem } from "./cart-item.entity";
 
 @Entity('products')
@@ -44,6 +46,9 @@ export class Product {
     @OneToMany(() => ProductCategory, (productCategory) => productCategory.product )
     productCategories: ProductCategory[];
 
-//     @OneToMany(() => CartItem, (cartItem) => cartItem.product)
-//     cartItems: CartItem[];
+    @OneToMany(() => ProductSize, (productSize) => productSize.product)
+    productSizes: ProductSize[];
+
+    @OneToMany(() => CartItem, (cartItem) => cartItem.cart )
+    cartItems: CartItem[];
 }

@@ -43,7 +43,6 @@ export class AuthServices{
     }
 
     async login(email: string, password: string) {
-        console.log('login')
         const user = await this.userRepository.findOne({
             where: {email},
             select: ['id', 'password']
@@ -115,5 +114,46 @@ export class AuthServices{
         await this.passwordResetTokenRepository.delete({ id: resetToken.id });
     
         return { message: 'Password reset successfully' };
+    }
+
+    async changePassword(user: User, currentPassword: string, confirmPassword: string ,newPassword: string) {
+        
+        console.log(user.id);
+        
+        
+        const user_ = await this.userRepository.findOneBy({
+            id: user.id
+        })
+
+        if (!user_) {
+            throw new BadRequestException('Không tìm thấy tài khoản');
+        }
+
+        if(confirmPassword !== currentPassword) {
+            throw new BadRequestException('Nhập lại mật khẩu không đúng');
+        }
+
+        const isMatch = await bcrypt.compare(currentPassword, user.password)
+
+        if(!isMatch) {
+            throw new BadRequestException('Mật khẩu hiện tại của bạn không đúng!')
+        }
+
+        const isSameAsCurrent = await bcrypt.compare(newPassword, user.password)
+
+
+        if(isSameAsCurrent) {
+            throw new BadRequestException('Mật khẩu mới cần phải khác với mật khẩu hiện tại của bạn!')
+        }
+
+        const salt = await bcrypt.genSalt(10);  // Sử dụng bcrypt.genSalt với số vòng rõ ràng
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+        
+        // Cập nhật mật khẩu người dùng
+        user.password = hashedPassword;
+        await this.userRepository.save(user);
+    
+        return(`Mật khẩu của bạn đã được cập nhật!`)
+
     }
 }

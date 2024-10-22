@@ -10,10 +10,12 @@ import { ProductImage } from "src/database/entities/product_images.entity";
 import { Franchise } from "src/database/entities/franchises.entity";
 import { User } from "src/database/entities/user.entity";
 import { ProductCategory } from "src/database/entities/product_category.entity";
+import { ProductSize } from "src/database/entities/product_sizes.entity";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Product, ProductReview, ProductImage, Franchise, User, ProductCategory])],
+    imports: [TypeOrmModule.forFeature([Product, ProductReview, ProductImage, Franchise, User, ProductCategory, ProductSize])],
     providers: [ProductServices, ReviewServices],
-    controllers: [ProductController, ReviewController]
+    controllers: [ProductController, ReviewController],
+    exports: [ProductServices]
 })
 export class ProductModules {}

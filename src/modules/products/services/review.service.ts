@@ -24,7 +24,7 @@ export class ReviewServices {
         )
     }
 
-    async createReview(createReview: ReviewsDto,    user: User,
+    async createReview(createReview: ReviewsDto, user: User,
     ): Promise<ProductReview> {
         const product = await this.productRepository.existsBy({
             id: createReview.product_id

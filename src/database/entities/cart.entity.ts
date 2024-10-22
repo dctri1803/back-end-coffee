@@ -1,24 +1,25 @@
-// import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
-// import { User } from './user.entity';
-// import { CartItem } from './cart-item.entity';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, CreateDateColumn, UpdateDateColumn, JoinColumn } from 'typeorm';
+import { User } from './user.entity';
+import { CartItem } from './cart-item.entity';
 
-// @Entity('carts')
-// export class Cart {
-//     @PrimaryGeneratedColumn()
-//     id: number;
+@Entity('carts')
+export class Cart {
+    @PrimaryGeneratedColumn()
+    id: number;
 
-//     @Column()
-//     user_id: number;
+    @Column()
+    user_id: number;
 
-//     @CreateDateColumn()
-//     created_at: Date;
+    @CreateDateColumn()
+    created_at: Date;
 
-//     @UpdateDateColumn()
-//     updated_at: Date;
+    @UpdateDateColumn()
+    updated_at: Date;
 
-//     @ManyToOne(() => User, (user) => user.carts, { onDelete: 'CASCADE' })
-//     user: User;
+    @ManyToOne(() => User, (user) => user.carts, { onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'user_id' })
+    user: User;
 
-//     @OneToMany(() => CartItem, (cartItem) => cartItem.cart, { cascade: true })
-//     cartItems: CartItem[];
-// }
+    @OneToMany(() => CartItem, (cartItem) => cartItem.cart )
+    cartItems: CartItem[];
+}

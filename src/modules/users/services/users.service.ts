@@ -1,8 +1,7 @@
-import { Delete, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "src/database/entities/user.entity";
 import { DataSource, Repository } from "typeorm";
-import * as bcrypt from 'bcrypt';
 import * as fs from 'fs';
 import * as path from 'path';
 import { UpdateUserDto } from "../dto/update-user.dto";
@@ -24,7 +23,6 @@ export class UserServices {
             relations:['addresses']
         })
     }
-
 
     findOne(id: number) {
         return this.userRepository.findOne({
@@ -48,12 +46,6 @@ export class UserServices {
             const user = await queryRunner.manager.findOne(User, { where: { id: user_id } });
             if (!user) {
                 throw new NotFoundException('User not found');
-            }
-    
-            // Hash the password if it needs updating
-            if (updateUserDto.password) {
-                const salt = await bcrypt.genSalt();
-                updateUserDto.password = await bcrypt.hash(updateUserDto.password, salt);
             }
     
             // Update user details

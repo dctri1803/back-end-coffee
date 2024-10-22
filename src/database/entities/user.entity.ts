@@ -3,6 +3,7 @@ import { PasswordResetToken } from "./password_reset_token.entity";
 import { Franchise } from "./franchises.entity";
 import { ProductReview } from "./product_reviews.entity";
 import { Address } from "./address.entity";
+import { Cart } from "./cart.entity";
 // import { Cart } from "./cart.entity";
 // import { PaymentMethod } from "./payment-method";
 
@@ -50,9 +51,8 @@ export class User {
     @OneToMany(() => Address, (address) => address.user)
     addresses: Address[];
 
-    // @OneToMany(() => Cart, (cart) => cart.user)
-    // carts: Cart[];
-
+    @OneToMany(() => Cart, (cart) => cart.user)
+    carts: Cart[];
     // @OneToMany(() => PaymentMethod, (paymentMethod) => paymentMethod.user)
     // paymentMethods: PaymentMethod[];
 

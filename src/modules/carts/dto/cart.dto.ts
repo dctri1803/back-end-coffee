@@ -1,10 +1,10 @@
-// import { IsInt, Min } from 'class-validator';
+import { IsInt, Min } from 'class-validator';
 
-// export class AddToCartDto {
-//     @IsInt()
-//     productId: number;
+export class AddToCartDto {
+    @IsInt()
+    productId: number;
 
-//     @IsInt()
-//     @Min(1)
-//     quantity: number;
-// }
+    @IsInt()
+    @Min(1)
+    quantity: number;
+}

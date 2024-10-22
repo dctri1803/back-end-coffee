@@ -10,6 +10,7 @@ import { ProductModules } from './modules/products/product.module';
 import { join } from 'path';
 import { FranchisesModule } from './modules/franchises/franchise.module';
 import { CategoryModules } from './modules/categories/category.module';
+import { CartModules } from './modules/carts/cart.module';
 
 @Module({
   imports: [
@@ -25,7 +26,7 @@ import { CategoryModules } from './modules/categories/category.module';
     ProductModules,
     FranchisesModule,
     CategoryModules,
-    // CartModules,
+    CartModules,
     // OrderModules
     
   ],

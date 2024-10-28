@@ -10,6 +10,9 @@ export class Cart {
     @Column()
     user_id: number;
 
+    @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
+    total_price: number; 
+
     @CreateDateColumn()
     created_at: Date;
 

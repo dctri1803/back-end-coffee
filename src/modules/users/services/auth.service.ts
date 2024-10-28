@@ -7,17 +7,17 @@ import { plainToInstance } from "class-transformer";
 import * as bcrypt from 'bcrypt';
 import * as moment from 'moment';
 import { MailService } from "./mail.service";
-import { PasswordResetToken } from "src/database/entities/password_reset_token.entity";
+import { PasswordResetToken } from "src/database/entities/password-reset-token.entity";
 
 @Injectable()
-export class AuthServices{
+export class AuthServices {
     constructor(
         @InjectRepository(User)
         private userRepository: Repository<User>,
         @InjectRepository(PasswordResetToken)
         private passwordResetTokenRepository: Repository<PasswordResetToken>,
         private mailService: MailService,
-    ){}
+    ) { }
 
     async register(
         createUser: CreateUserDto,
@@ -29,14 +29,14 @@ export class AuthServices{
         if (isExit) {
             return new BadRequestException('User already exists');
         }
-        
+
         else {
             const salt = await bcrypt.genSalt();
             const passwordhashed = await bcrypt.hash(createUser.password, salt)
 
             const newUser = await this.userRepository.save({
                 ...createUser,
-                password:passwordhashed,
+                password: passwordhashed,
             });
             return plainToInstance(User, newUser)
         }
@@ -44,11 +44,11 @@ export class AuthServices{
 
     async login(email: string, password: string) {
         const user = await this.userRepository.findOne({
-            where: {email},
+            where: { email },
             select: ['id', 'password']
         });
-        
-        if(!user) {
+
+        if (!user) {
             throw new BadRequestException('Invalid email or password')
         } else {
             const hashedPassword = user.password;
@@ -62,15 +62,15 @@ export class AuthServices{
         }
     }
 
-    async generateOtp(email: string){
+    async generateOtp(email: string) {
         const user = await this.userRepository.findOne({
-            where: {email},
+            where: { email },
         });
-        if(!user) {
+        if (!user) {
             throw new BadRequestException('User not found');
         } else {
             const otp = Math.floor(100000 + Math.random() * 900000).toString();
-            const tokenExpiration  = moment().add(10, 'minutes').toDate();
+            const tokenExpiration = moment().add(10, 'minutes').toDate();
 
             await this.passwordResetTokenRepository.save({
                 token: otp,
@@ -79,48 +79,48 @@ export class AuthServices{
             });
             await this.mailService.sendOtp(email, otp);
 
-            return { status: 'OK', message: 'OTP sent to email' };     
-        } 
+            return { status: 'OK', message: 'OTP sent to email' };
+        }
     }
-    
+
 
     async resetPassword(email: string, token: string, newPassword: string) {
         const user = await this.userRepository.findOne({ where: { email } });
         if (!user) {
             throw new BadRequestException('User not found');
         }
-    
+
         const resetToken = await this.passwordResetTokenRepository.findOne({
             where: { user_id: user.id, token },
         });
-    
+
         if (!resetToken || resetToken.expired_at < new Date()) {
             throw new BadRequestException('Invalid or expired token');
         }
-    
+
         if (typeof newPassword !== 'string') {
             throw new BadRequestException('Password must be a string');
         }
-    
+
         // Tạo salt và hash password
         const salt = await bcrypt.genSalt(10);  // Sử dụng bcrypt.genSalt với số vòng rõ ràng
         const hashedPassword = await bcrypt.hash(newPassword, salt);
-        
+
         // Cập nhật mật khẩu người dùng
         user.password = hashedPassword;
         await this.userRepository.save(user);
-    
+
         // Xóa token sau khi reset password thành công
         await this.passwordResetTokenRepository.delete({ id: resetToken.id });
-    
+
         return { message: 'Password reset successfully' };
     }
 
-    async changePassword(user: User, currentPassword: string, confirmPassword: string ,newPassword: string) {
-        
+    async changePassword(user: User, currentPassword: string, confirmPassword: string, newPassword: string) {
+
         console.log(user.id);
-        
-        
+
+
         const user_ = await this.userRepository.findOneBy({
             id: user.id
         })
@@ -129,31 +129,31 @@ export class AuthServices{
             throw new BadRequestException('Không tìm thấy tài khoản');
         }
 
-        if(confirmPassword !== currentPassword) {
+        if (confirmPassword !== currentPassword) {
             throw new BadRequestException('Nhập lại mật khẩu không đúng');
         }
 
         const isMatch = await bcrypt.compare(currentPassword, user.password)
 
-        if(!isMatch) {
+        if (!isMatch) {
             throw new BadRequestException('Mật khẩu hiện tại của bạn không đúng!')
         }
 
         const isSameAsCurrent = await bcrypt.compare(newPassword, user.password)
 
 
-        if(isSameAsCurrent) {
+        if (isSameAsCurrent) {
             throw new BadRequestException('Mật khẩu mới cần phải khác với mật khẩu hiện tại của bạn!')
         }
 
         const salt = await bcrypt.genSalt(10);  // Sử dụng bcrypt.genSalt với số vòng rõ ràng
         const hashedPassword = await bcrypt.hash(newPassword, salt);
-        
+
         // Cập nhật mật khẩu người dùng
         user.password = hashedPassword;
         await this.userRepository.save(user);
-    
-        return(`Mật khẩu của bạn đã được cập nhật!`)
+
+        return (`Mật khẩu của bạn đã được cập nhật!`)
 
     }
 }

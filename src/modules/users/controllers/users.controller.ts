@@ -6,7 +6,9 @@ import { UpdateUserDto } from "../dto/update-user.dto";
 import { UpdateAddressDto } from "../dto/update-address.dto";
 import { UserServices } from "../services/users.service";
 import { FileInterceptor } from "@nestjs/platform-express";
+import { ApiTags } from "@nestjs/swagger";
 
+@ApiTags('Users')
 @Controller('users')
 export class UsersController {
     constructor(

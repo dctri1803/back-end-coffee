@@ -23,16 +23,21 @@ export class CreateCartItems1729179000299 implements MigrationInterface {
                         name: 'product_id',
                         type: 'int',
                     },
+                    { 
+                        name: "size_id", 
+                        type: "int" ,
+                        isNullable: true,
+                    },
                     {
                         name: 'quantity',
                         type: 'int',
                     },
-                    {
-                        name: 'size',
-                        type: 'enum',
-                        enum: ['M', 'L', 'XL'],
-                        default: "'M'",
-                      },
+                    { 
+                        name: "total_price", 
+                        type: "decimal", 
+                        precision: 10, 
+                        scale: 2 
+                    },
                     {
                         name: 'created_at',
                         type: 'timestamp',
@@ -47,27 +52,31 @@ export class CreateCartItems1729179000299 implements MigrationInterface {
                 ]
             })
         );
-        await queryRunner.createForeignKey(
-            'cart_items',
+       
+        await queryRunner.createForeignKeys('cart_items', [
             new TableForeignKey({
-              columnNames: ['cart_id'],
-              referencedColumnNames: ['id'],
-              referencedTableName: 'carts',
-              onDelete: 'CASCADE',
+                columnNames: ['cart_id'],
+                referencedColumnNames: ['id'],
+                referencedTableName: 'carts',
+                onDelete: 'CASCADE',
             }),
-        );
-        await queryRunner.createForeignKey(
-            'cart_items',
             new TableForeignKey({
-              columnNames: ['product_id'],
-              referencedColumnNames: ['id'],
-              referencedTableName: 'products',
-              onDelete: 'CASCADE',
+                columnNames: ['product_id'],
+                referencedColumnNames: ['id'],
+                referencedTableName: 'products',
+                onDelete: 'CASCADE',
             }),
-        );     
+            new TableForeignKey({
+                columnNames: ["size_id"],
+                referencedColumnNames: ["id"],
+                referencedTableName: "product_sizes",
+                onDelete: "SET NULL",
+            })
+        ])
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.dropTable("cart_items");
     }
 
 }

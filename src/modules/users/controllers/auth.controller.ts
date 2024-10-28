@@ -6,12 +6,12 @@ import { ResetPasswordDto } from "../dto/reset-password.dto";
 import { CurrentUser } from "../decorators/current-user.decorator";
 import { User } from "src/database/entities/user.entity";
 import { ChangePasswordDto } from "../dto/change-password.dto";
+import { ApiTags } from "@nestjs/swagger";
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-    constructor(private authServices: AuthServices,
-        private userServices: UserServices
-    ) {}
+    constructor(private authServices: AuthServices) {}
 
     @Post('forgot-password')
     async forgotPassword(@Body() body: ForgotPasswordDto) {

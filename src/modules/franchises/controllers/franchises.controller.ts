@@ -5,7 +5,6 @@ import {
   Body,
   Param,
   Delete,
-  Put,
   ParseIntPipe,
   Patch,
 } from '@nestjs/common';
@@ -13,8 +12,9 @@ import { FranchisesService } from '../services/franchises.service';
 import { Franchise } from 'src/database/entities/franchises.entity';
 import { CreateFranchiseDto } from '../dto/create-franchises.dto';
 import { UpdateFranchiseDto } from '../dto/update-franchises.dto';
+import { ApiTags } from '@nestjs/swagger';
 
-
+@ApiTags('Franchises')
 @Controller('franchises')
 export class FranchisesController {
   constructor(private readonly franchisesService: FranchisesService) { }

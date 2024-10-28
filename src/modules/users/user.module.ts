@@ -6,7 +6,7 @@ import { UsersController } from "./controllers/users.controller";
 import { UserServices } from "./services/users.service";
 import { AuthController } from "./controllers/auth.controller";
 import { MailService } from "./services/mail.service";
-import { PasswordResetToken } from "src/database/entities/password_reset_token.entity";
+import { PasswordResetToken } from "src/database/entities/password-reset-token.entity";
 import { Address } from "src/database/entities/address.entity";
 
 @Module({
@@ -15,4 +15,4 @@ import { Address } from "src/database/entities/address.entity";
     controllers: [UsersController, AuthController],
     exports: [UserServices],
 })
-export class UserModules {}
+export class UserModules { }

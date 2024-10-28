@@ -1,9 +1,9 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Franchise } from "./franchises.entity";
-import { ProductReview } from "./product_reviews.entity";
-import { ProductImage } from "./product_images.entity";
-import { ProductCategory } from "./product_category.entity";
-import { ProductSize } from "./product_sizes.entity";
+import { ProductReview } from "./product-reviews.entity";
+import { ProductImage } from "./product-images.entity";
+import { ProductCategory } from "./product-category.entity";
+import { ProductSize } from "./product-sizes.entity";
 import { CartItem } from "./cart-item.entity";
 // import { CartItem } from "./cart-item.entity";
 
@@ -37,18 +37,15 @@ export class Product {
     @JoinColumn({ name: 'franchise_id' })
     franchise: Franchise;
 
-    @OneToMany(() => ProductReview, (review) => review.product )
+    @OneToMany(() => ProductReview, (review) => review.product)
     review: ProductReview[];
 
-    @OneToMany(() => ProductImage, (productImage) => productImage.product )
+    @OneToMany(() => ProductImage, (productImage) => productImage.product)
     productImages: ProductImage[];
 
-    @OneToMany(() => ProductCategory, (productCategory) => productCategory.product )
+    @OneToMany(() => ProductCategory, (productCategory) => productCategory.product)
     productCategories: ProductCategory[];
 
-    @OneToMany(() => ProductSize, (productSize) => productSize.product)
-    productSizes: ProductSize[];
-
-    @OneToMany(() => CartItem, (cartItem) => cartItem.cart )
+    @OneToMany(() => CartItem, (cartItem) => cartItem.cart)
     cartItems: CartItem[];
 }

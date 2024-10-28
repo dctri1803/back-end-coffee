@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { ProductReview } from "src/database/entities/product_reviews.entity";
+import { ProductReview } from "src/database/entities/product-reviews.entity";
 import { Product } from "src/database/entities/products.entity";
 import { User } from "src/database/entities/user.entity";
 import { Repository } from "typeorm";
@@ -14,7 +14,7 @@ export class ReviewServices {
         private reviewRepository: Repository<ProductReview>,
         @InjectRepository(Product)
         private productRepository: Repository<Product>,
-    ){}
+    ) { }
 
     findAll(productId: number): Promise<ProductReview[]> {
         return this.reviewRepository.find({
@@ -72,7 +72,7 @@ export class ReviewServices {
     // Delete a review or comment
     async deleteReview(reviewId: number): Promise<void> {
         const review = await this.reviewRepository.findOneBy({
-            id:reviewId
+            id: reviewId
         });
         if (!review) {
             throw new BadRequestException(`Review with ID ${reviewId} not found`);

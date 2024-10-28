@@ -11,6 +11,8 @@ import { join } from 'path';
 import { FranchisesModule } from './modules/franchises/franchise.module';
 import { CategoryModules } from './modules/categories/category.module';
 import { CartModules } from './modules/carts/cart.module';
+import { ToppingModules } from './modules/toppings/topping.module';
+import { SizeModules } from './modules/sizes/size.module';
 
 @Module({
   imports: [
@@ -26,7 +28,9 @@ import { CartModules } from './modules/carts/cart.module';
     ProductModules,
     FranchisesModule,
     CategoryModules,
+    ToppingModules,
     CartModules,
+    SizeModules,
     // OrderModules
     
   ],

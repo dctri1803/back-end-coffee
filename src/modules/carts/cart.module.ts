@@ -7,10 +7,13 @@ import { User } from "src/database/entities/user.entity";
 import { Product } from "src/database/entities/products.entity";
 import { CartService } from "./services/cart.service";
 import { CartController } from "./controllers/cart.controller";
+import { ProductSize } from "src/database/entities/product-sizes.entity";
+import { Topping } from "src/database/entities/topping.entity";
+import { ToppingModules } from "../toppings/topping.module";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Cart, CartItem, User, Product]), ProductModules],
+    imports: [TypeOrmModule.forFeature([Cart, CartItem, User, Product, ProductSize, Topping]), ProductModules, ToppingModules],
     providers: [CartService],
     controllers: [CartController]
 })
-export class CartModules {}
+export class CartModules { }

@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { PasswordResetToken } from "./password_reset_token.entity";
+import { PasswordResetToken } from "./password-reset-token.entity";
 import { Franchise } from "./franchises.entity";
-import { ProductReview } from "./product_reviews.entity";
+import { ProductReview } from "./product-reviews.entity";
 import { Address } from "./address.entity";
 import { Cart } from "./cart.entity";
 // import { Cart } from "./cart.entity";

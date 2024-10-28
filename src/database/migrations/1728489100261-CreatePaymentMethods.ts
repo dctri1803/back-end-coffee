@@ -7,13 +7,33 @@ export class CreatePaymentMethods1728489100261 implements MigrationInterface {
             new Table({
                 name: "payment_methods",
                 columns: [
-                    { name: "payment_method_id", type: "int", isPrimary: true, isGenerated: true, generationStrategy: "increment" },
-                    { name: "user_id", type: "int", isNullable: false },
-                    { name: "method_type", type: "enum", enum: ["credit_card", "e_wallet", "cash_on_delivery"], isNullable: false },
-                    { name: "provider_name", type: "varchar", length: "100", isNullable: true },
-                    { name: "account_number", type: "varchar", length: "100", isNullable: true },
-                    { name: "expiried_date", type: "date", isNullable: true },
-                    { name: "created_at", type: "timestamp", default: "CURRENT_TIMESTAMP" },
+                    { 
+                        name: "id",
+                        type: "int",
+                        isPrimary: true,
+                        isGenerated: true,
+                        generationStrategy: "increment" },
+                    { 
+                        name: "name",
+                        type: "varchar",
+                        isNullable: false 
+                    },
+                    { 
+                        name: "description",
+                        type: "varchar",
+                        length: "100", 
+                    },
+                    { 
+                        name: "created_at",
+                        type: "timestamp",
+                        default: "CURRENT_TIMESTAMP" 
+                    },
+                    { 
+                        name: 'updated_at',
+                        type: 'timestamp',
+                        default: 'CURRENT_TIMESTAMP',
+                        onUpdate: 'CURRENT_TIMESTAMP',
+                    },
                 ]
             })
         );

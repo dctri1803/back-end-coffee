@@ -4,15 +4,18 @@ import { ReviewsDto } from "../dto/review.dto";
 import { UpdateReviewDto } from "../dto/update-review.dto";
 import { CurrentUser } from "src/modules/users/decorators/current-user.decorator";
 import { User } from "src/database/entities/user.entity";
+import { ApiTags } from "@nestjs/swagger";
 
+@ApiTags('Reviews')
 @Controller('reviews')
 export class ReviewController {
+
     constructor(private reviewServices: ReviewServices)
     {}
 
-    @Get(':id')
+    @Get(':productId') // Change ':id' to ':productId'
     async findAll(@Param('productId', ParseIntPipe) productId: number) {
-        return await this.reviewServices.findAll(productId)
+        return await this.reviewServices.findAll(productId);
     }
 
     @Post()

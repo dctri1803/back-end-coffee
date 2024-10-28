@@ -15,11 +15,6 @@ export class CreateProductSize1729005092771 implements MigrationInterface {
                   generationStrategy: 'increment',
                 },
                 {
-                  name: 'product_id',
-                  type: 'int',
-                  isNullable: false,
-                },
-                {
                   name: 'size',
                   type: 'enum',
                   enum: ['M', 'L', 'XL'],
@@ -45,18 +40,7 @@ export class CreateProductSize1729005092771 implements MigrationInterface {
                 },
               ],
             }),
-          );
-      
-          await queryRunner.createForeignKey(
-            'product_sizes',
-            new TableForeignKey({
-              columnNames: ['product_id'],
-              referencedColumnNames: ['id'],
-              referencedTableName: 'products',
-              onDelete: 'CASCADE',
-            }),
-          );
-      
+          );  
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

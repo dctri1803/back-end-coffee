@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Product } from "./products.entity";
+import { CartItem } from "./cart-item.entity";
 
 @Entity('product_sizes')
 export class ProductSize {
@@ -22,8 +23,7 @@ export class ProductSize {
     })
     updated_at: Date;
 
-    @ManyToOne(() => Product, (product) => product.productSizes, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'product_id' })
-    product: Product;
-
+    @OneToMany(() => CartItem, (cartItem) => cartItem.product)
+    cartItems: CartItem[];
+    
 }

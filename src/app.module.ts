@@ -13,6 +13,8 @@ import { CategoryModules } from './modules/categories/category.module';
 import { CartModules } from './modules/carts/cart.module';
 import { ToppingModules } from './modules/toppings/topping.module';
 import { SizeModules } from './modules/sizes/size.module';
+import { PaymentMethodModule } from './modules/payment-methods/payment-method.module';
+import { VoucherModules } from './modules/vourchers/voucher.module';
 
 @Module({
   imports: [
@@ -31,6 +33,8 @@ import { SizeModules } from './modules/sizes/size.module';
     ToppingModules,
     CartModules,
     SizeModules,
+    PaymentMethodModule,
+    VoucherModules,
     // OrderModules
     
   ],

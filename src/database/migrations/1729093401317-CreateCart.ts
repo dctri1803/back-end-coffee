@@ -20,10 +20,10 @@ export class CreateCart1729093401317 implements MigrationInterface {
                       isNullable: false,
                     },
                     {
-                        name: "total_price", 
-                        type: "decimal", 
-                        precision: 10, 
-                        scale: 2 
+                      name: "total_price", 
+                      type: "decimal", 
+                      precision: 10, 
+                      scale: 2 
                     },
                     {
                       name: 'created_at',

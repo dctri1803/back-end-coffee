@@ -1,33 +1,37 @@
-// import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from "typeorm";
-// // import { Order } from "./order.entity";
-// import { Product } from "./products.entity";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Order } from "./order.entity";
+import { Product } from "./products.entity";
+import { ProductSize } from "./product-sizes.entity";
 
-// @Entity('order_items')
-// export class OrderItem {
-//     @PrimaryGeneratedColumn()
-//     id: number;
+@Entity('order_items')
+export class OrderItem {
+    @PrimaryGeneratedColumn()
+    id: number;
 
-//     @Column()
-//     order_id: number
-//     @ManyToOne(() => Order, { onDelete: 'CASCADE' })
-//     @JoinColumn({ name: 'order_id' })
-//     order: Order;
+    @Column()
+    order_id: number;
 
-//     @Column()
-//     product_id: number
-//     @ManyToOne(() => Product, { onDelete: 'CASCADE' })
-//     @JoinColumn({ name: 'product_id' })
-//     product: Product;
+    @Column()
+    product_id: number;
 
-//     @Column({ type: 'enum', enum: ['S', 'M', 'L'] })
-//     size: string;
+    @Column()
+    size_id: number;
 
-//     @Column({ type: 'int' })
-//     quantity: number;
+    @Column()
+    quantity: number;
 
-//     @Column({ type: 'decimal', precision: 10, scale: 2 })
-//     price: number;
+    @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
+    total_price: number;
 
-//     @Column({ type: 'enum', enum: ['pending', 'completed', 'cancelled'], default: 'pending' })
-//     status: string;
-// }
+    @ManyToOne(() => Order, order => order.orderItems)
+    @JoinColumn({ name: 'order_id' })
+    order: Order;
+
+    @ManyToOne(() => Product, product => product.orderItems)
+    @JoinColumn({ name: 'product_id' })
+    product: Product;
+
+    @ManyToOne(() => ProductSize, size => size.orderItems)
+    @JoinColumn({ name: 'size_id' })
+    size: ProductSize;
+}

@@ -4,8 +4,7 @@ import { Franchise } from "./franchises.entity";
 import { ProductReview } from "./product-reviews.entity";
 import { Address } from "./address.entity";
 import { Cart } from "./cart.entity";
-// import { Cart } from "./cart.entity";
-// import { PaymentMethod } from "./payment-method";
+import { Order } from "./order.entity";
 
 @Entity('users')
 export class User {
@@ -53,7 +52,8 @@ export class User {
 
     @OneToMany(() => Cart, (cart) => cart.user)
     carts: Cart[];
-    // @OneToMany(() => PaymentMethod, (paymentMethod) => paymentMethod.user)
-    // paymentMethods: PaymentMethod[];
 
+    @OneToMany(() => Order, (order) => order.customer)
+    orders: Order[];
+    
 }

@@ -23,7 +23,8 @@ export class CreateCart1729093401317 implements MigrationInterface {
                       name: "total_price", 
                       type: "decimal", 
                       precision: 10, 
-                      scale: 2 
+                      scale: 2,
+                      default: 0.00
                     },
                     {
                       name: 'created_at',

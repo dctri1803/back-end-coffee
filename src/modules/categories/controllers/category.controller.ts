@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post } from "@nestjs/common";
 import { CategoryServices } from "../services/category.service";
-import { categoryDto } from "../dto/category.dto";
+import { CategoryDto } from "../dto/category.dto";
 import { ApiTags } from "@nestjs/swagger";
 
 @ApiTags('Categories')
@@ -13,7 +13,7 @@ export class CategoriesController {
     }
 
     @Post()
-    async create(@Body() body: categoryDto) {
+    async create(@Body() body: CategoryDto) {
         return this.categoriesService.createCategory(body)
     }
 

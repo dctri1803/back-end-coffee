@@ -32,11 +32,12 @@ export class CreateCartItems1729179000299 implements MigrationInterface {
                         name: 'quantity',
                         type: 'int',
                     },
-                    { 
-                        name: "total_price", 
-                        type: "decimal", 
-                        precision: 10, 
-                        scale: 2 
+                    {
+                        name: "total_price",
+                        type: "decimal",
+                        precision: 10,
+                        scale: 2,
+                        default: 0.00
                     },
                     {
                         name: 'created_at',

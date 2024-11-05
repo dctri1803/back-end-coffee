@@ -15,6 +15,7 @@ import { ToppingModules } from './modules/toppings/topping.module';
 import { SizeModules } from './modules/sizes/size.module';
 import { PaymentMethodModule } from './modules/payment-methods/payment-method.module';
 import { VoucherModules } from './modules/vourchers/voucher.module';
+import { OrderModules } from './modules/orders/order.module';
 
 @Module({
   imports: [
@@ -35,8 +36,7 @@ import { VoucherModules } from './modules/vourchers/voucher.module';
     SizeModules,
     PaymentMethodModule,
     VoucherModules,
-    // OrderModules
-    
+    OrderModules    
   ],
   controllers: [AppController],
   providers: [AppService],

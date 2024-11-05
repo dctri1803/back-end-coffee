@@ -1,23 +1,29 @@
-import { IsEmail, IsNotEmpty, IsNumber, IsPhoneNumber, IsString } from "class-validator";
+import { ApiProperty } from "@nestjs/swagger";
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class CreateOrderDto {
-    @IsNotEmpty()
-    @IsString()
-    buyer_name: string;
+  @ApiProperty({ description: 'ID của franchise' })
+  @IsNumber()
+  @IsNotEmpty()
+  franchise_id: number;
 
-    @IsNotEmpty()
-    @IsPhoneNumber(null)  // Specify a region code, e.g., 'VN' for Vietnam if needed
-    buyer_phone: string;
+  @ApiProperty({ description: 'ID của phương thức thanh toán' })
+  @IsNumber()
+  @IsNotEmpty()
+  payment_method_id: number;
 
-    @IsNotEmpty()
-    @IsEmail()
-    buyer_email: string;
+  @ApiProperty({ description: 'Tên khách hàng' })
+  @IsString()
+  @IsNotEmpty()
+  customer_name: string;
 
-    @IsNotEmpty()
-    @IsNumber()
-    franchise_id: number;
+  @ApiProperty({ description: 'Địa chỉ giao hàng' })
+  @IsString()
+  @IsNotEmpty()
+  address: string;
 
-    @IsNotEmpty()
-    @IsNumber()
-    payment_method_id: number;  // Include payment method for the order
+  @ApiProperty({ description: 'Số điện thoại' })
+  @IsString()
+  @IsNotEmpty()
+  phone_number: string;
 }

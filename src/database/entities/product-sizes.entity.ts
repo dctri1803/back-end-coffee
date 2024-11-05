@@ -25,5 +25,6 @@ export class ProductSize {
 
     @OneToMany(() => CartItem, (cartItem) => cartItem.product)
     cartItems: CartItem[];
+    orderItems: any;
     
 }

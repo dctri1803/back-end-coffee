@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Category } from "src/database/entities/category.entity";
-import { categoryDto } from "../dto/category.dto";
+import { CategoryDto } from "../dto/category.dto";
 import { Repository } from "typeorm";
 
 @Injectable()
@@ -15,7 +15,7 @@ export class CategoryServices {
         return this.categoryRepository.find();
     }
 
-    async createCategory( newCategory: categoryDto) {
+    async createCategory( newCategory: CategoryDto) {
         const category = this.categoryRepository.create({
             name: newCategory.name
         }) 

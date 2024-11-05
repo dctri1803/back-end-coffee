@@ -1,52 +1,50 @@
-// import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
-// import { User } from "./user.entity";
-// import { PaymentMethod } from "./payment-method";
-// import { Franchise } from "./franchises.entity";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { OrderItem } from "./order-item.entity";
+import { User } from "./user.entity";
+import { Franchise } from "./franchises.entity";
+import { PaymentMethod } from "./payment-method";
 
-// @Entity('orders')
-// export class Order {
-//     @PrimaryGeneratedColumn()
-//     id: number;
+@Entity('orders')
+export class Order {
+    @PrimaryGeneratedColumn()
+    id: number;
 
-//     @Column()
-//     user_id: number;
-//     @ManyToOne(() => User)
-//     @JoinColumn({ name: 'user_id' })
-//     user: User;
+    @Column()
+    user_id: number;
 
-//     @Column()
-//     payment_method_id: number
-//     @ManyToOne(() => PaymentMethod)
-//     @JoinColumn({ name: 'payment_method_id' })
-//     paymentMethod: PaymentMethod;
+    @Column()
+    franchise_id: number;
 
-//     @Column()
-//     managed_by: number
-//     @ManyToOne(() => User)
-//     @JoinColumn({ name: 'managed_by' })
-//     managedBy: User;
+    @Column()
+    payment_method_id: number;
 
-//     @Column({ length: 255, nullable: true })
-//     buyer_name: string;
+    @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
+    total_price: number;
 
-//     @Column({ length: 20, nullable: true })
-//     buyer_phone: string;
+    @Column()
+    address: string;
 
-//     @Column({ length: 100, nullable: true })
-//     buyer_email: string;
+    @Column()
+    phone_number: string;
 
-//     @Column()
-//     franchise_id: number
-//     @ManyToOne(() => Franchise)
-//     @JoinColumn({ name: 'franchise_id' })
-//     franchise: Franchise;
+    @Column()
+    customer_name: string;
 
-//     @Column({ type: 'enum', enum: ['pending', 'completed', 'cancelled'], default: 'pending' })
-//     status: string;
+    @Column({ type: 'enum', enum: ['pending', 'confirmed', 'shipped', 'completed', 'cancelled'], default: 'pending' })
+    status: string;
 
-//     @CreateDateColumn()
-//     created_at: Date;
+    @OneToMany(() => OrderItem, orderItem => orderItem.order)
+    orderItems: OrderItem[];
 
-//     @UpdateDateColumn()
-//     updated_at: Date;
-// }
+    @ManyToOne(() => User, user => user.orders)
+    @JoinColumn({ name: 'user_id' })
+    customer: User;
+
+    @ManyToOne(() => Franchise, franchise => franchise.orders)
+    @JoinColumn({ name: 'franchise_id' })
+    franchise: Franchise;
+
+    @ManyToOne(() => PaymentMethod, paymentMethod => paymentMethod.orders)
+    @JoinColumn({ name: 'payment_method_id' })
+    paymentMethod: PaymentMethod;
+}

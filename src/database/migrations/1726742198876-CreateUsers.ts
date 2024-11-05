@@ -26,13 +26,13 @@ export class CreateUsers1726742198876 implements MigrationInterface {
                       default: 'now()',
                     },
                     {
-                        name: 'email',
-                        type: 'varchar',
+                      name: 'email',
+                      type: 'varchar',
                     },
                     {
                       name: 'role',
                       type: 'enum',
-                      enum: ['customer', 'employee', 'admin', 'franchise_owner'],
+                      enum: ['customer', 'employee', 'admin'],
                       default: `'customer'`,
                     },
                     {

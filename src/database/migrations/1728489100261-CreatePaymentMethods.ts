@@ -37,13 +37,6 @@ export class CreatePaymentMethods1728489100261 implements MigrationInterface {
                 ]
             })
         );
-
-        await queryRunner.createForeignKey("payment_methods", new TableForeignKey({
-            columnNames: ["user_id"],
-            referencedColumnNames: ["id"],
-            referencedTableName: "users",
-            onDelete: "CASCADE",
-        }));
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

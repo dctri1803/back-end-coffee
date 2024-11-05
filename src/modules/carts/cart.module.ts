@@ -14,6 +14,7 @@ import { ToppingModules } from "../toppings/topping.module";
 @Module({
     imports: [TypeOrmModule.forFeature([Cart, CartItem, User, Product, ProductSize, Topping]), ProductModules, ToppingModules],
     providers: [CartService],
-    controllers: [CartController]
+    controllers: [CartController],
+    exports: [CartService]
 })
-export class CartModules { }
+export class CartModules {}

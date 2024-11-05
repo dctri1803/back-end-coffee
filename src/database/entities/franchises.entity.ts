@@ -1,6 +1,7 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./user.entity";
 import { Product } from "./products.entity";
+import { Order } from "./order.entity";
 
 @Entity('franchises')
 export class Franchise {
@@ -31,4 +32,7 @@ export class Franchise {
 
     @OneToMany(() => Product, product => product.franchise)
     product: Product[];
+
+    @OneToMany(() => Order, (order) => order.franchise)
+    orders: Order[]
 }

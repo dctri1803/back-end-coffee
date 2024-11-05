@@ -18,7 +18,7 @@ export class CartItem {
     @Column()
     size_id: number;
 
-    @Column('decimal', { precision: 10, scale: 2 })
+    @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
     total_price: number;
 
     @Column()

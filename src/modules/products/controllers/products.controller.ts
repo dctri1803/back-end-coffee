@@ -64,6 +64,4 @@ export class ProductController {
     return await this.productServices.delete(id)
   }
 
-  
-
 }

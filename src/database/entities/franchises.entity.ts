@@ -30,9 +30,6 @@ export class Franchise {
     @JoinColumn({ name: 'owner_id' }) // Maps 'owner_id' column to the User entity
     owner: User;
 
-    @OneToMany(() => Product, product => product.franchise)
-    product: Product[];
-
     @OneToMany(() => Order, (order) => order.franchise)
     orders: Order[]
 }

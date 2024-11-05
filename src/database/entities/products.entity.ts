@@ -12,9 +12,6 @@ export class Product {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
-    franchise_id: number;
-
     @CreateDateColumn()
     created_at: Date;
 
@@ -32,10 +29,6 @@ export class Product {
 
     @Column({ default: 0 })
     quantity_sold: number;
-
-    @ManyToOne(() => Franchise, franchise => franchise.product, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'franchise_id' })
-    franchise: Franchise;
 
     @OneToMany(() => ProductReview, (review) => review.product)
     review: ProductReview[];

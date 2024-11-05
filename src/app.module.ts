@@ -16,6 +16,7 @@ import { SizeModules } from './modules/sizes/size.module';
 import { PaymentMethodModule } from './modules/payment-methods/payment-method.module';
 import { VoucherModules } from './modules/vourchers/voucher.module';
 import { OrderModules } from './modules/orders/order.module';
+import { BlogModules } from './modules/blogs/blog.module';
 
 @Module({
   imports: [
@@ -36,7 +37,8 @@ import { OrderModules } from './modules/orders/order.module';
     SizeModules,
     PaymentMethodModule,
     VoucherModules,
-    OrderModules    
+    OrderModules,
+    BlogModules
   ],
   controllers: [AppController],
   providers: [AppService],

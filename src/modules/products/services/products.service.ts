@@ -87,6 +87,7 @@ export class ProductServices {
 
       newProduct.productImages = newProductImages;
       await queryRunner.commitTransaction();
+      return newProduct;
     } catch (err) {
       await queryRunner.rollbackTransaction();
       throw err;
@@ -94,7 +95,6 @@ export class ProductServices {
       await queryRunner.release();
     }
 
-    return newProduct;
   }
 
   async update(

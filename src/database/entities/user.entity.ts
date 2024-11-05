@@ -5,6 +5,7 @@ import { ProductReview } from "./product-reviews.entity";
 import { Address } from "./address.entity";
 import { Cart } from "./cart.entity";
 import { Order } from "./order.entity";
+import { BlogComment } from "./blog-comments.entity";
 
 @Entity('users')
 export class User {
@@ -55,5 +56,8 @@ export class User {
 
     @OneToMany(() => Order, (order) => order.customer)
     orders: Order[];
+    comments: any;
     
+    @OneToMany(() => BlogComment, comment => comment.user)
+    commentsBlog: BlogComment[];
 }

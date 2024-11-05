@@ -38,10 +38,10 @@ export class CreateProducts1727625100791 implements MigrationInterface {
                         type: 'integer',
                         default: 0
                     },
-                    {
-                        name: 'franchise_id',
-                        type: 'integer'
-                    },
+                    // {
+                    //     name: 'franchise_id',
+                    //     type: 'integer'
+                    // },
                     {
                         name: 'description',
                         type: 'text'
@@ -49,15 +49,15 @@ export class CreateProducts1727625100791 implements MigrationInterface {
                 ]
             })
         );
-        await queryRunner.createForeignKey(
-            'products',
-            new TableForeignKey({
-                columnNames: ['franchise_id'],
-                referencedColumnNames: ['id'],
-                referencedTableName: 'franchises',
-                onDelete: 'CASCADE'
-            })
-        )
+        // await queryRunner.createForeignKey(
+        //     'products',
+        //     new TableForeignKey({
+        //         columnNames: ['franchise_id'],
+        //         referencedColumnNames: ['id'],
+        //         referencedTableName: 'franchises',
+        //         onDelete: 'CASCADE'
+        //     })
+        // )
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

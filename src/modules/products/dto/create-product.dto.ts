@@ -25,11 +25,11 @@ export class CreateProductsDto {
   @IsOptional()
   quantity_sold: number;
 
-  @ApiProperty({ type: Number })
-  @IsNumber()
-  @IsNotEmpty()
-  @Type(() => Number) // Transform input to a number
-  franchise_id: number;
+  // @ApiProperty({ type: Number })
+  // @IsNumber()
+  // @IsNotEmpty()
+  // @Type(() => Number) // Transform input to a number
+  // franchise_id: number;
 
   @IsOptional()
   @IsArray()

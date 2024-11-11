@@ -11,7 +11,6 @@ import { PaginationDto } from "src/shared/dto/pagination.dto";
 import { PageDto } from "src/shared/dto/page.dto";
 import { PaginationMetaDataDto } from "src/shared/dto/pagination-metadata.dto";
 import { User } from "src/database/entities/user.entity";
-import { CurrentUser } from "../decorators/current-user.decorator";
 
 @ApiTags('Users')
 @Controller('users')

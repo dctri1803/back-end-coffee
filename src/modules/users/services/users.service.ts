@@ -7,6 +7,7 @@ import * as path from 'path';
 import { UpdateUserDto } from "../dto/update-user.dto";
 import { Address } from "src/database/entities/address.entity";
 import { UpdateAddressDto } from "../dto/update-address.dto";
+import { PaginationDto } from "src/shared/dto/pagination.dto";
 
 Injectable() 
 export class UserServices {
@@ -18,10 +19,19 @@ export class UserServices {
         private dataSource: DataSource,
     ){}
 
-    findAll() {
-        return this.userRepository.find({
-            relations:['addresses']
-        })
+    
+    async findAll(paginationDto: PaginationDto) {
+        const { offset, limit } = paginationDto;
+
+        // return this.userRepository.find({
+        //     relations:['addresses']
+        // })
+        return await this.userRepository
+        .createQueryBuilder('user')
+        .leftJoinAndSelect('user.addresses', 'addresses')
+        .take(limit)
+        .skip(offset)
+        .getManyAndCount();
     }
 
     findOne(id: number) {

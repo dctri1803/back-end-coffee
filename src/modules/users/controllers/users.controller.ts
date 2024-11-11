@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, ParseFilePipeBuilder, ParseIntPipe, Patch, Post, Put, Session, UploadedFile, UploadedFiles, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, NotFoundException, Param, ParseFilePipeBuilder, ParseIntPipe, Patch, Post, Put, Query, Session, UploadedFile, UploadedFiles, UseInterceptors } from "@nestjs/common";
 import { AuthServices } from "../services/auth.service";
 import { CreateUserDto } from "../dto/create-user.dto";
 import { LoginDto } from "../dto/login.dto";
@@ -6,7 +6,12 @@ import { UpdateUserDto } from "../dto/update-user.dto";
 import { UpdateAddressDto } from "../dto/update-address.dto";
 import { UserServices } from "../services/users.service";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { PaginationDto } from "src/shared/dto/pagination.dto";
+import { PageDto } from "src/shared/dto/page.dto";
+import { PaginationMetaDataDto } from "src/shared/dto/pagination-metadata.dto";
+import { User } from "src/database/entities/user.entity";
+import { CurrentUser } from "../decorators/current-user.decorator";
 
 @ApiTags('Users')
 @Controller('users')
@@ -17,8 +22,25 @@ export class UsersController {
     ) { }
 
     @Get()
-    async findAll() {
-        return await this.userService.findAll()
+    async findAll(@Query() paginationDto: PaginationDto) {
+        const [data, totalItem] = await this.userService.findAll(paginationDto)
+        return new PageDto(
+            data,
+            new PaginationMetaDataDto(totalItem, paginationDto),
+          );
+    }
+
+    @Get(':id')
+    @ApiOperation({ summary: 'Get user by ID' })
+    @ApiParam({ name: 'id', type: Number, description: 'User ID' })
+    @ApiResponse({ status: 200, description: 'Returns the user and their addresses.', type: User })
+    @ApiResponse({ status: 404, description: 'User not found.' })
+    async findOne(@Param('id', ParseIntPipe) id: number ): Promise<User> {
+      const user = await this.userService.findOne(id);
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+      return user;
     }
 
     @Post('register')
@@ -31,7 +53,6 @@ export class UsersController {
         @Body() body: LoginDto,
         @Session() session:Record<string, any>
     ) {
-        console.log('>>>> session: ', session);
         const user = await this.authService.login(body.email, body.password);
         session.userId = user.id;
         return `Login successfully`

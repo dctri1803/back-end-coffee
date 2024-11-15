@@ -7,10 +7,11 @@ import { PaymentMethod } from "src/database/entities/payment-method";
 import { OrderService } from "./services/orders.service";
 import { OrderController } from "./controllers/oders.controller";
 import { CartModules } from "../carts/cart.module";
+import { UserModules } from "../users/user.module";
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([Order, OrderItem, PaymentMethod, User]), CartModules // Add OrderItem here
+        TypeOrmModule.forFeature([Order, OrderItem, PaymentMethod, User]), CartModules, UserModules 
     ],
     providers: [OrderService],
     controllers: [OrderController]

@@ -13,6 +13,6 @@ import { Address } from "src/database/entities/address.entity";
     imports: [TypeOrmModule.forFeature([User, PasswordResetToken, Address])],
     providers: [AuthServices, UserServices, MailService],
     controllers: [UsersController, AuthController],
-    exports: [UserServices],
+    exports: [UserServices, MailService],
 })
 export class UserModules { }

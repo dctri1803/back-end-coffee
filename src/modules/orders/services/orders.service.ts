@@ -8,6 +8,7 @@ import { Repository } from "typeorm";
 import { CreateOrderDto } from "../dto/create-order.dto";
 import { UpdateOrderDetailsDto } from "../dto/update-order-details.dto";
 import { UpdateOrderStatusDto } from "../dto/update-order-status.dto";
+import { MailService } from "src/modules/users/services/mail.service";
 
 @Injectable()
 export class OrderService {
@@ -17,47 +18,56 @@ export class OrderService {
         @InjectRepository(OrderItem)
         private orderItemRepository: Repository<OrderItem>,
         private cartService: CartService,
+        private readonly mailService: MailService
     ) {}
 
     async createOrder(user: User, createOrderDto: CreateOrderDto): Promise<Order> {
-      const { address, phone_number, customer_name, payment_method_id } = createOrderDto;
+        const { address, phone_number, customer_name, payment_method_id } = createOrderDto;
 
-      // Lấy giỏ hàng hiện tại của người dùng
-      const cart = await this.cartService.getCart(user);
-      if (!cart.cartItems.length) throw new BadRequestException('Giỏ hàng trống');
+        const cart = await this.cartService.getCart(user);
+        if (!cart.cartItems.length) throw new BadRequestException('Giỏ hàng trống');
 
-      // Tạo đơn hàng mới
-      const order = this.orderRepository.create({
-          user_id: user.id,
-          franchise_id: createOrderDto.franchise_id,
-          payment_method_id,
-          total_price: cart.total_price,
-          address,
-          phone_number,
-          customer_name,
-          status: 'pending',
-      });
+        const order = this.orderRepository.create({
+            user_id: user.id,
+            franchise_id: createOrderDto.franchise_id,
+            payment_method_id,
+            total_price: cart.total_price,
+            address,
+            phone_number,
+            customer_name,
+            status: 'pending',
+        });
 
-      // Lưu đơn hàng vào database
-      const savedOrder = await this.orderRepository.save(order);
+        const savedOrder = await this.orderRepository.save(order);
 
-      // Thêm các mục trong giỏ hàng vào đơn hàng
-      for (const cartItem of cart.cartItems) {
-          const orderItem = this.orderItemRepository.create({
-              order: savedOrder,
-              product: cartItem.product,
-              size: cartItem.size,
-              quantity: cartItem.quantity,
-              total_price: cartItem.total_price,
-          });
-          await this.orderItemRepository.save(orderItem);
-      }
+        const orderItems = cart.cartItems.map(cartItem =>
+            this.orderItemRepository.create({
+                order: savedOrder,
+                product: cartItem.product,
+                size: cartItem.size,
+                quantity: cartItem.quantity,
+                total_price: cartItem.total_price,
+            }),
+        );
+        await this.orderItemRepository.save(orderItems);
+        await this.cartService.clearCart(user.id);
 
-      // Xóa giỏ hàng sau khi tạo đơn hàng
-      await this.cartService.clearCart(user.id);
+        // Gửi email xác nhận đặt hàng
+        const orderDetails = {
+            customerName: customer_name,
+            items: cart.cartItems.map(cartItem => ({
+                name: cartItem.product.name,
+                quantity: cartItem.quantity,
+                price: cartItem.total_price,
+            })),
+            totalPrice: cart.total_price,
+        };
+        const emailContent = this.mailService.generateOrderEmailContent(orderDetails);
+        await this.mailService.sendMail(user.email, 'Xác nhận đặt hàng thành công', emailContent);
 
-      return savedOrder;
-  }
+        return savedOrder;
+    }
+    
     // Lấy danh sách tất cả đơn hàng
     async getAllOrders(): Promise<Order[]> {
         return await this.orderRepository.find({ relations: ['orderItems', 'customer', 'franchise', 'paymentMethod'] });
